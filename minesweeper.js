@@ -1,3 +1,10 @@
+// in this file: code for minesweeper game
+// tiles are arranged on a grid. each tile has a chance to be a mine. when clicked, tiles either reveal that they are a mine or they
+// reveal the number of adjacent mines. when a tile is revealed which has no adjacent mines, all adjacent tiles are revealed.
+// tiles may be right clicked to flag them as a mine. they may be right clicked again to unflag.
+// the game may be restarted using the restart button, and upon losing or winning the game is frozen and no more actions may be taken.
+// there is a timer and a mine counter (displays unfound mines) which both restart each round 
+
 // initialise game variables
 const width = 15
 const height = 10
