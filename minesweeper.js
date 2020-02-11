@@ -133,7 +133,7 @@ const game = (function() {
                 const tileWronglyFlagged = !tile.isMine && tile.flagged
                 const mineNotFlagged = tile.isMine && !tile.flagged
                 const tileNotRevealed = !tile.isMine && !tile.revealed 
-                if(tileWronglyFlagged || mineNotFlagged | tileNotRevealed) hasWon = false
+                if(tileWronglyFlagged || mineNotFlagged || tileNotRevealed) hasWon = false
             }))
             // end the game if they have won
             if(hasWon) {
