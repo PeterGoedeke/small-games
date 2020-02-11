@@ -15,7 +15,7 @@ const mineChance = 0.1
 const gameBox = document.querySelector('.game')
 const gameWidth = 60
 
-gameBox.style.width = gameWidth + '%'
+gameBox.style.width = gameWidth + 'vw'
 document.documentElement.style.setProperty('--tileSize', gameWidth / width + "vw");
 
 // factory function to generate tile object
