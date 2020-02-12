@@ -64,6 +64,11 @@ function createTile(x, y) {
         // called when tile is clicked or when adjacent "0" tile is revealed; reveals number of adjacent mines
         reveal() {
             this.revealed = true
+            if(this.flagged) {
+                this.flagged = false
+                mineCounter.incrementCounter()
+            }
+            
             this.element.style.backgroundColor = 'lightgrey'
             
             const adjacentMines = game.analyse(this)
