@@ -76,6 +76,10 @@ const polyProto = {
         canvas.poly(this.absolutePoints, 'black', 'red')
         canvas.point(this.centreOfMass)
     },
+    // set the location of the centre of mass of the polygon
+    setLocation(x, y) {
+        this.centreOfMass = point(x, y)
+    },
     // polygon points are stored relative to the centre of mass of the polygon. absolute points returns the points with the centre of
     // mass factored in; e.g. the canvas positions of the points
     get absolutePoints() {
