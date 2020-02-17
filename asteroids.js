@@ -41,3 +41,64 @@ const canvas = (function() {
         }
     }
 })();
+
+function point(x, y) {
+    return {x, y}
+}
+
+function toRad(theta) {
+    return theta * Math.PI / 180
+}
+
+// prototype to inherit from to create an object with polygon methods
+const polyProto = {
+    // rotate the polygon by the specified amount of degrees around the centre of mass
+    rotate(degrees) {
+        this.points.forEach(point => {
+            // calculate coordinates to polar form
+            const magnitude = Math.hypot(point.x, point.y)
+            let angle = Math.atan(point.y / point.x)
+            
+            // arctan returns identical values for opposite quadrants. therefore, adjust for that
+            if(point.y >= 0 && point.x <= 0)
+                angle += Math.PI
+            else if(point.y <= 0 && point.x <= 0)
+                angle += Math.PI
+            
+            // set the new position of the point after rotation
+            angle = toRad(degrees) + angle
+            point.x = magnitude * Math.cos(angle) 
+            point.y = magnitude * Math.sin(angle)
+        })
+    },
+    // use the canvas interface to draw the polygon to the canvas
+    draw() {
+        canvas.poly(this.absolutePoints, 'black', 'red')
+        canvas.point(this.centreOfMass)
+    },
+    // polygon points are stored relative to the centre of mass of the polygon. absolute points returns the points with the centre of
+    // mass factored in; e.g. the canvas positions of the points
+    get absolutePoints() {
+        return this.points.map(point => {return {x: point.x + this.centreOfMass.x, y: point.y + this.centreOfMass.y}})
+    },
+}
+
+const poly = (function() {
+
+
+    return {
+        define(centreOfMass, points) {
+
+        }
+    }
+})();
+
+const test = Object.create(polyProto)
+test.centreOfMass = point(200, 200)
+test.points = [point(30, 0), point(-15, -10), point(-15, 10)]
+
+setInterval(() => {
+    canvas.clear()
+    test.rotate(1)
+    test.draw()
+}, 20)
