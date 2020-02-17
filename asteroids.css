@@ -48,29 +48,13 @@ table {
 CSS starts here---------------------------------------------------------------
 ------------------------------------------------------------------------------
 */
-
-.header {
-    font-size: 3em;
-    text-align: center;
-    padding: 5vh 0;
+* {
     user-select: none;
 }
-
-.menuContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    width: 80vw;
-    margin: 0 auto;
-}
-.option {
-    padding: 5%;
-    width: 20vw;
-    text-align: center;
+.game {
+    width: 60vw;
+    height: 60vw;
     border: solid black 1px;
-    cursor: pointer;
-    user-select: none;
-    color: inherit;
-    text-decoration: none;
-    margin-bottom: 5vh;
+    margin-top: 10vh;
+    margin-left: 20vw;
 }
