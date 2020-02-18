@@ -1,13 +1,29 @@
+let mouseX, mouseY
+
 // interface object over the javascript canvas which allows for easy drawing of polygons to the canvas
 const canvas = (function() {
-    const canvasElement = document.querySelector('.game')
-    const ctx = canvasElement.getContext('2d')
 
+    const canvasElement = document.querySelector('.game')
+    const rect = canvasElement.getBoundingClientRect()
+    
     // scale used to increase the resolution of the canvas
     const scale = 2
-    canvasElement.width = canvasElement.width * scale
-    canvasElement.height = canvasElement.height * scale * 2
+    canvasElement.width = rect.width * scale
+    canvasElement.height = rect.height * scale
+    
+    // update mouse position
+    canvasElement.addEventListener('mousemove', event => {
+        mouseX = event.clientX - rect.left - scrollX
+        mouseY = event.clientY - rect.top - scrollY
 
+        mouseX /= rect.width
+        mouseY /= rect.height
+
+        mouseX *= canvasElement.width
+        mouseY *= canvasElement.height
+    })
+    const ctx = canvasElement.getContext('2d')
+    
     return {
         // draw a line to the canvas; e.g. a laser
         line: function(x1, y1, x2, y2) {
@@ -38,6 +54,9 @@ const canvas = (function() {
         // clear the canvas for redrawing
         clear() {
             ctx.clearRect(0, 0, canvasElement.width, canvasElement.height)
+        },
+        get centreLocation() {
+            return {x: canvasElement.width / 2, y: canvasElement.height / 2}
         }
     }
 })();
@@ -97,12 +116,10 @@ const poly = (function() {
     }
 })();
 
-const test = Object.create(polyProto)
 test.centreOfMass = point(200, 200)
 test.points = [point(30, 0), point(-15, -10), point(-15, 10)]
 
 setInterval(() => {
     canvas.clear()
-    test.rotate(1)
     test.draw()
 }, 20)

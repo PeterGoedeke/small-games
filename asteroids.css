@@ -53,7 +53,7 @@ CSS starts here---------------------------------------------------------------
 }
 .game {
     width: 60vw;
-    height: 60vw;
+    height: 80vh;
     border: solid black 1px;
     margin-top: 10vh;
     margin-left: 20vw;
