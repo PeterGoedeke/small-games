@@ -7,7 +7,7 @@ const canvas = (function() {
     const rect = canvasElement.getBoundingClientRect()
     
     // scale used to increase the resolution of the canvas
-    const scale = 2
+    const scale = 1
     canvasElement.width = rect.width * scale
     canvasElement.height = rect.height * scale
     
@@ -78,11 +78,16 @@ const polyProto = {
             const magnitude = Math.hypot(point.x, point.y)
             let angle = Math.atan(point.y / point.x)
             
+            console.log(angle)
             // arctan returns identical values for opposite quadrants. therefore, adjust for that
-            if(point.y >= 0 && point.x <= 0)
+            if(point.y > 0 && point.x < 0) {
                 angle += Math.PI
-            else if(point.y <= 0 && point.x <= 0)
+                console.log('changed 1')
+            }
+            else if(point.y < 0 && point.x < 0) {
                 angle += Math.PI
+                console.log('changed 2')
+            }
             
             // set the new position of the point after rotation
             angle = toRad(degrees) + angle
@@ -92,7 +97,10 @@ const polyProto = {
     },
     // use the canvas interface to draw the polygon to the canvas
     draw() {
-        canvas.poly(this.absolutePoints, 'black', 'red')
+        // canvas.poly(this.absolutePoints, 'black', 'red')
+        this.absolutePoints.forEach(point => {
+            canvas.line(point.x, point.y, this.centreOfMass.x, this.centreOfMass.y)
+        })
         canvas.point(this.centreOfMass)
     },
     // set the location of the centre of mass of the polygon
@@ -116,10 +124,33 @@ const poly = (function() {
     }
 })();
 
-test.centreOfMass = point(200, 200)
-test.points = [point(30, 0), point(-15, -10), point(-15, 10)]
+const playerProto = {
+    rotate(degrees) {
+        this.rotation += degrees
+        if(this.rotation > 360) this.rotation -= 360
+        if(this.rotation < -360) this.rotation += 360
+
+        this.poly.rotate(degrees)
+    }
+}
+
+function createPlayer() {
+    const player = Object.create(playerProto)
+    
+    player.rotation = 0
+    player.poly = Object.create(polyProto)
+    player.poly.centreOfMass = point(300, 100)
+    // player.poly.points = [point(60, 0), point(-30, -20), point(-30, 20)]
+    player.poly.points = [point(0, 30), point(-10, -15), point(10, -15)]
+
+    return player
+}
+
+const player = createPlayer()
 
 setInterval(() => {
     canvas.clear()
-    test.draw()
+    player.rotate(1)
+    player.poly.draw()
+    canvas.point(600, 400)
 }, 20)
